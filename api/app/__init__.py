@@ -74,9 +74,9 @@ dbGIS = SQLAlchemy()
 
 celery = Celery(__name__, backend=constants.CELERY_RESULT_BACKEND,
                 broker=constants.CELERY_BROKER_URL)
-
+file_dir = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
 # methods
-log_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '', 'logging.conf')
+log_file_path = os.path.join(file_dir, 'logging.conf')
 logging.config.fileConfig(log_file_path)
 log = logging.getLogger(__name__)
 # logging.getLogger('flask_cors').level = logging.DEBUG
@@ -92,7 +92,7 @@ def create_app(config_name):
     Create app instance
     """
     app = Flask(__name__)
-    cfg = os.path.join(os.getcwd(), 'config', config_name + '.py')
+    cfg = os.path.join(os.path.dirname(file_dir), 'config', config_name + '.py')
     app.config.from_pyfile(cfg)
 
     # initialize extensions
